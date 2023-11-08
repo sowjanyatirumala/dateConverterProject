@@ -2,6 +2,9 @@ package com.myprojects.service
 
 import org.springframework.stereotype.Service
 
+import java.text.ParseException
+import java.text.SimpleDateFormat
+
 @Service
 class DateConversionService {
 
@@ -25,5 +28,33 @@ class DateConversionService {
     def writeStringToFile(String fileContents) {
         File file = new File("src/main/resources/outputFile.txt")
         file.setText(fileContents)
+    }
+
+    /**
+     * This method checks if the input string matches the input date format,
+     * converts it to output date format if it matches and returns the converted date as string
+     * otherwise returns the same string
+     * The method returns null if the input string provided is null
+     *
+     * @param inputDateFormatString - date format of the input string to be matched
+     * @param outputDateFormatString - date format of the output string
+     * @param inputString - string to be converted
+     *
+     * @return the converted string
+     */
+    def convertDate(String inputDateFormatString, String outputDateFormatString, String inputString) {
+        if (inputString == null) {
+            return null
+        }
+
+        try {
+            def inputDateFormat = new SimpleDateFormat(inputDateFormatString)
+            def inputDate = inputDateFormat.parse(inputString)
+            def outputDateFormat = new SimpleDateFormat(outputDateFormatString, Locale.US)
+
+            return outputDateFormat.format(inputDate)
+        } catch (ParseException pe) {
+            return inputString
+        }
     }
 }
