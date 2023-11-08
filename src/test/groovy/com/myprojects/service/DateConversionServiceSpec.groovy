@@ -13,4 +13,17 @@ class DateConversionServiceSpec extends Specification {
         expect:
         dateConversionService.readFileContentsAsString(filepath) == "Hi, here is the first program written on 11/06/2023."
     }
+
+    def "writeStringToFile - happy path"() {
+        given:
+        def stringToWriteToFile = "Test data created on 11/07/2023"
+
+        when:
+        dateConversionService.writeStringToFile(stringToWriteToFile)
+
+        then:
+        def fileCreated = new File("src/main/resources/outputFile.txt")
+        fileCreated.exists()
+        fileCreated.text == stringToWriteToFile
+    }
 }

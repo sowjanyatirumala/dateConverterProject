@@ -16,4 +16,14 @@ class DateConversionService {
         File file = new File(filepath)
         return file.text
     }
+
+    /**
+     * This method creates a new file with the input string as contents
+     *
+     * @param fileContents - text to be added to the file
+     */
+    def writeStringToFile(String fileContents) {
+        File file = new File("src/main/resources/outputFile.txt")
+        file.setText(fileContents)
+    }
 }
