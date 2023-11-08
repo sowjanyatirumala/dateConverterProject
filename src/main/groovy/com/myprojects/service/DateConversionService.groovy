@@ -25,7 +25,7 @@ class DateConversionService {
      *
      * @param fileContents - text to be added to the file
      */
-    def writeStringToFile(String fileContents) {
+    void writeStringToFile(String fileContents) {
         File file = new File("src/main/resources/outputFile.txt")
         file.setText(fileContents)
     }
@@ -56,5 +56,24 @@ class DateConversionService {
         } catch (ParseException pe) {
             return inputString
         }
+    }
+
+    /**
+     * This method transforms the contents of the file from the specified path
+     * from input date format to output date format and writes contents to output file in src/main/resources directory.
+     *
+     * @param filepath - path of the file whose contents need to be read
+     * @param inputDateFormatString - format of the input date to be converted
+     * @param outputDateFormatString - format of the date to which the input date needs to be converted
+     *
+     */
+    void transformDates(String filepath, String inputDateFormatString, String outputDateFormatString) {
+       def fileContents = readFileContentsAsString(filepath)
+        def result = ""
+        fileContents.split(" ").each {
+            def outputDate = convertDate(inputDateFormatString, outputDateFormatString, it)
+            result = result.concat(outputDate).concat(" ")
+        }
+        writeStringToFile(result.trim())
     }
 }
